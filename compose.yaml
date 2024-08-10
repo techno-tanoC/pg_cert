@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres:16.4
+    command:
+      - postgres
+      - -c
+      - ssl=on
+      - -c
+      - hba_file=/var/lib/postgresql/conf/pg_hba.conf
+      - -c
+      - ssl_ca_file=/var/lib/postgresql/cert/ca.crt
+      - -c
+      - ssl_cert_file=/var/lib/postgresql/cert/server.crt
+      - -c
+      - ssl_key_file=/var/lib/postgresql/cert/server.key
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: pass
+    volumes:
+      - ./data:/var/lib/postgresql/data
+      - ./conf:/var/lib/postgresql/conf
+      - ./cert:/var/lib/postgresql/cert
+
+  app:
+    build: .
+    working_dir: /root
+    volumes:
+      - ./cert:/root/cert
