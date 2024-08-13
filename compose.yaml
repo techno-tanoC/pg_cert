@@ -26,3 +26,4 @@ services:
     working_dir: /root
     volumes:
       - ./cert:/root/cert
+      - ./Makefile:/root/Makefile
